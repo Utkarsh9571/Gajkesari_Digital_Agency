@@ -47,25 +47,15 @@ export default function Navbar() {
         }`}
       >
         <div className="mx-auto max-w-7xl flex items-center justify-between px-6 py-3">
-          {/* Left: Logo */}
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <Image
-              src="/Green-logo.jfif"
-              alt="Logo"
-              width={42}
-              height={42}
-              className="rounded"
-            />
-            <span
-              className={`font-bold tracking-wide text-lg ${
-                isScrolled ? "text-black" : "text-white"
-              }`}
-            >
+            <Image src="/Green-logo.jfif" alt="Logo" width={42} height={42} className="rounded" />
+            <span className={`font-bold tracking-wide text-lg ${isScrolled ? "text-black" : "text-white"}`}>
               GAJKESARI
             </span>
           </Link>
 
-          {/* Center Nav links - Desktop */}
+          {/* Nav Links */}
           <div className="hidden md:flex gap-8">
             {NAV_LINKS.map((l) => (
               <Link key={l.href} href={l.href} className={navLinkClass(isScrolled)}>
@@ -74,7 +64,7 @@ export default function Navbar() {
             ))}
           </div>
 
-          {/* Right: Language + Login + Mobile Menu icon */}
+          {/* Right section */}
           <div className="flex items-center gap-4">
             {/* Language Dropdown */}
             <Listbox value={lang} onChange={setLang}>
@@ -85,7 +75,6 @@ export default function Navbar() {
                   }`}
                   aria-label="Select Language"
                 >
-                  {/* Navbar flag */}
                   <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-white">
                     <lang.Flag className="w-full h-full object-contain" />
                   </div>
@@ -98,32 +87,33 @@ export default function Navbar() {
                   leaveFrom="opacity-100"
                   leaveTo="opacity-0"
                 >
-                  <Listbox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white shadow-lg py-1 text-base z-50">
+                  <Listbox.Options className="absolute mt-1 max-h-60 w-auto overflow-auto rounded-md bg-white shadow-lg py-1 text-base z-50">
                     {LANGS.map((l) => {
-                        const FlagIcon = l.Flag; // Capitalized variable!
-                        return (
+                      const FlagIcon = l.Flag; // Capitalize component
+                      return (
                         <Listbox.Option
-                            key={l.code}
-                            value={l}
-                            className={({ active }: { active: boolean }) =>
-                                `cursor-pointer select-none relative px-4 py-2 flex items-center gap-2 ${
-                                    active ? "bg-amber-100" : ""
-                                }`
-                            }
+                          key={l.code}
+                          value={l}
+                          className={({ active }) =>
+                            `cursor-pointer select-none px-4 py-2 flex items-center gap-2 ${
+                              active ? "bg-amber-100" : ""
+                            }`
+                          }
                         >
-                            {({ selected }) => (
+                          {({ selected }) => (
                             <>
-                                <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-white">
-                                    <FlagIcon className="w-full h-full object-contain" />
-                                </div>
-                                <span className="ml-2">{l.label}</span>
+                              <div className="w-4 h-56rounded-full overflow-hidden flex items-center justify-center bg-white">
+                                <FlagIcon className="w-full h-full object-contain" />
+                              </div>
+                              <span className={`${selected ? "font-semibold" : "font-normal"} text-black`}>
+                                {l.label}
+                              </span>
                             </>
-                        )}
+                          )}
                         </Listbox.Option>
-                    );
-                })}
-            </Listbox.Options>
-
+                      );
+                    })}
+                  </Listbox.Options>
                 </Transition>
               </div>
             </Listbox>
@@ -141,12 +131,8 @@ export default function Navbar() {
               Login
             </Link>
 
-            {/* Mobile Menu Button */}
-            <button
-              className="md:hidden"
-              onClick={() => setIsOpen(true)}
-              aria-label="Open Menu"
-            >
+            {/* Mobile Menu */}
+            <button className="md:hidden" onClick={() => setIsOpen(true)} aria-label="Open Menu">
               <Menu size={28} className={isScrolled ? "text-black" : "text-white"} />
             </button>
           </div>
@@ -154,59 +140,22 @@ export default function Navbar() {
       </nav>
 
       {/* Mobile Drawer */}
-      <Transition
-        show={isOpen}
-        as={Fragment}
-        enter="transition ease-out duration-300"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="transition ease-in duration-200"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
-      >
-        <div
-          className="fixed inset-0 bg-black/60 z-50"
-          onClick={() => setIsOpen(false)}
-        >
-          <Transition.Child
-            as={Fragment}
-            enter="transition transform duration-300"
-            enterFrom="translate-x-full"
-            enterTo="translate-x-0"
-            leave="transition transform duration-200"
-            leaveFrom="translate-x-0"
-            leaveTo="translate-x-full"
-          >
-            <div
-              className="absolute right-0 top-0 h-full w-64 bg-white p-6 shadow-lg"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                aria-label="Close Menu"
-                className="text-black mb-6"
-                onClick={() => setIsOpen(false)}
-              >
+      <Transition show={isOpen} as={Fragment} enter="transition ease-out duration-300" enterFrom="opacity-0" enterTo="opacity-100" leave="transition ease-in duration-200" leaveFrom="opacity-100" leaveTo="opacity-0">
+        <div className="fixed inset-0 bg-black/60 z-50" onClick={() => setIsOpen(false)}>
+          <Transition.Child as={Fragment} enter="transition transform duration-300" enterFrom="translate-x-full" enterTo="translate-x-0" leave="transition transform duration-200" leaveFrom="translate-x-0" leaveTo="translate-x-full">
+            <div className="absolute right-0 top-0 h-full w-64 bg-white p-6 shadow-lg" onClick={(e) => e.stopPropagation()}>
+              <button aria-label="Close Menu" className="text-black mb-6" onClick={() => setIsOpen(false)}>
                 <X size={28} />
               </button>
 
               <div className="flex flex-col gap-4">
                 {NAV_LINKS.map((l) => (
-                  <Link
-                    key={l.href}
-                    href={l.href}
-                    className="text-black font-medium"
-                    onClick={() => setIsOpen(false)}
-                  >
+                  <Link key={l.href} href={l.href} className="text-black font-medium" onClick={() => setIsOpen(false)}>
                     {l.label}
                   </Link>
                 ))}
 
-                {/* Mobile Login */}
-                <Link
-                  href="/login"
-                  className="mt-4 inline-flex items-center gap-2 px-3 py-2 rounded-md bg-amber-500 text-white"
-                  onClick={() => setIsOpen(false)}
-                >
+                <Link href="/login" className="mt-4 inline-flex items-center gap-2 px-3 py-2 rounded-md bg-amber-500 text-white" onClick={() => setIsOpen(false)}>
                   <LogIn size={16} />
                   Login
                 </Link>
